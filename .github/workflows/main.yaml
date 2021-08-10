@@ -1,9 +1,12 @@
+name: Run argocd-cli
+
 on: [push]
+  workflow_dispatch:
 
 jobs:
   argocd-cli:
     runs-on: ubuntu-latest
-    name: A job to say hello
+    name: argocd-cli
     steps:
       - name: Checkout
         uses: actions/checkout@v2
