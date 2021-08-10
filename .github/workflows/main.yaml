@@ -12,5 +12,5 @@ jobs:
         id: argocd-cli
         with:
           server: cd.govirto.com
-          username: test
-          password: test
+          username: ${{ secrets.ARGOCD_LOGIN }}
+          password: ${{ secrets.ARGOCD_PASSWORD }}
