@@ -1,0 +1,16 @@
+on: [push]
+
+jobs:
+  argocd-cli:
+    runs-on: ubuntu-latest
+    name: A job to say hello
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Hello world action step
+        uses: ./vc-argocd-cli # Uses an action in the root directory
+        id: argocd-cli
+        with:
+          server: cd.govirto.com
+          username: test
+          password: test
