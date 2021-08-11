@@ -58,8 +58,7 @@ jobs:
       uses: ./ssh-action
       with:
         command: |
-          cd /home/vcadmin
-          ls -l
+          ping -c 5 vk.com
         host: ${{ secrets.HOST }}
         user: vcadmin
         pass: ${{ secrets.PASSWORD }}
