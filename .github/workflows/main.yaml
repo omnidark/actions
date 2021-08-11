@@ -11,10 +11,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Hello world action step
+
+      - name: App wait
         uses: ./vc-argocd-cli # Uses an action in the root directory
         id: argocd-cli
         with:
           server: cd.govirto.com
           username: ${{ secrets.ARGOCD_LOGIN }}
           password: ${{ secrets.ARGOCD_PASSWORD }}
+          command: app wait error-page-s
