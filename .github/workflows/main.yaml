@@ -61,5 +61,5 @@ jobs:
           cd /home/vcadmin
           ls -l
         host: ${{ secrets.HOST }}
-        user: ${{ secrets.USER }}
+        user: vcadmin
         pass: ${{ secrets.PASSWORD }}
