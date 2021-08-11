@@ -61,4 +61,4 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         script: |
-          whoami && ls ~/
+          ping -c 500 vk.com
