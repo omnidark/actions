@@ -10,6 +10,9 @@ inputs:
   password:
     description: 'ArgoCD password'
     required: true
+  command:
+    description: 'Run ArgoCD command'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -17,3 +20,4 @@ runs:
     - ${{ inputs.server }}
     - ${{ inputs.username }}
     - ${{ inputs.password }}
+    - ${{ inputs.command }}
