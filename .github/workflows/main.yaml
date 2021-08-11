@@ -5,31 +5,50 @@ on:
   workflow_dispatch:
 
 jobs:
+  azure-login:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
+
+  azure-sql:
+    needs: azure-login
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.26.0
+        inlineScript: |
+          az account show
+
+  azure-vm:
+    needs: azure-login
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.26.0
+        inlineScript: |
+          az account show
+
   argocd-cli:
+    needs: [azure-sql, azure-vm]
     runs-on: ubuntu-latest
     name: argocd-cli
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-          allow-no-subscriptions: true
-    
-      - name: Azure CLI script
-        uses: azure/CLI@v1
-        with:
-          azcliversion: 2.26.0
-          inlineScript: |
-            az account show
-
-      - name: App wait
-        uses: ./vc-argocd-cli # Uses an action in the root directory
-        id: argocd-cli
-        with:
-          server: cd.govirto.com
-          username: ${{ secrets.ARGOCD_LOGIN }}
-          password: ${{ secrets.ARGOCD_PASSWORD }}
-          command: app wait error-page-s
+    - name: App wait
+      uses: ./vc-argocd-cli # Uses an action in the root directory
+      id: argocd-cli
+      with:
+        server: cd.govirto.com
+        username: ${{ secrets.ARGOCD_LOGIN }}
+        password: ${{ secrets.ARGOCD_PASSWORD }}
+        command: app wait error-page-s
