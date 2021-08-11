@@ -55,8 +55,10 @@ jobs:
         command: app wait error-page-s
 
     - name: Run Loadtest
-      id: ssh-login
-      run: |
-          echo {{ secrets.SSH_KEY }} > ~/key && chmod 700 ~/key
-          ssh -tt -o StrictHostKeyChecking=no -i ~/key vcadmin@${{ secrets.HOST }}
-          ls
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: vcadmin
+        password: ${{ secrets.PASSWORD }}
+        script: |
+          whoami && ls ~/
