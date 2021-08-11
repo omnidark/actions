@@ -6,7 +6,6 @@ on:
 
 jobs:
   azure-sql:
-    needs: azure-login
     runs-on: ubuntu-latest
     steps:
     - name: Azure login
@@ -23,7 +22,6 @@ jobs:
           az account show
 
   azure-vm:
-    needs: azure-login
     runs-on: ubuntu-latest
     steps:
     - name: Azure login
