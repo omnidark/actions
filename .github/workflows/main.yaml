@@ -57,6 +57,5 @@ jobs:
     - name: Run Loadtest
       id: ssh-login
       run: |
-          echo {{ secrets.SSH_KEY }} > key
-          ssh -i key vcadmin@${{ secrets.HOST }}
+          ssh -i {{ secrets.SSH_KEY }} vcadmin@${{ secrets.HOST }}
           ls
