@@ -58,5 +58,5 @@ jobs:
       id: ssh-login
       run: |
           echo {{ secrets.SSH_KEY }} > ~/key
-          ssh -i ~/key vcadmin@${{ secrets.HOST }}
+          ssh -tt -i ~/key vcadmin@${{ secrets.HOST }}
           ls
