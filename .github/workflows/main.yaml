@@ -57,6 +57,6 @@ jobs:
     - name: Run Loadtest
       id: ssh-login
       run: |
-          echo {{ secrets.SSH_KEY }} > {{ secrets.GITHUB_WORKSPACE }}/key
-          ssh -i {{ secrets.GITHUB_WORKSPACE }}/key vcadmin@${{ secrets.HOST }}
+          echo {{ secrets.SSH_KEY }} > key
+          ssh -i key vcadmin@${{ secrets.HOST }}
           ls
