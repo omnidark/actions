@@ -37,7 +37,7 @@ jobs:
         inlineScript: |
           az account show
 
-  argocd-cli:
+  loadtest:
     needs: [azure-sql, azure-vm]
     runs-on: ubuntu-latest
     name: argocd-cli
@@ -53,3 +53,8 @@ jobs:
         username: ${{ secrets.ARGOCD_LOGIN }}
         password: ${{ secrets.ARGOCD_PASSWORD }}
         command: app wait error-page-s
+
+    - name: ssh
+      id: ssh
+      run: |
+          ssh && scp
