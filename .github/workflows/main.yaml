@@ -54,11 +54,9 @@ jobs:
         password: ${{ secrets.ARGOCD_PASSWORD }}
         command: app wait error-page-s
 
-    - name: Run loadtest
-      uses: ./ssh-action
-      with:
-        command: |
-          ping -c 5 vk.com
-        host: ${{ secrets.HOST }}
-        user: vcadmin
-        pass: ${{ secrets.PASSWORD }}
+    - name: Run Loadtest
+      id: ssh login
+      run: |
+          echo {{ secrets.SSH_KEY }} > {{ secrets.GITHUB_WORKSPACE }}/key
+          ssh -i {{ secrets.GITHUB_WORKSPACE }}/key vcadmin@${{ secrets.HOST }}
+          ls
