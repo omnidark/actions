@@ -5,40 +5,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  azure-sql:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        allow-no-subscriptions: true
+  # azure-sql:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Azure login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #       allow-no-subscriptions: true
 
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.26.0
-        inlineScript: |
-          az account show
+  #   - name: Azure CLI script
+  #     uses: azure/CLI@v1
+  #     with:
+  #       azcliversion: 2.26.0
+  #       inlineScript: |
+  #         az account show
 
-  azure-vm:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Azure login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-        allow-no-subscriptions: true
+  # azure-vm:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Azure login
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #       allow-no-subscriptions: true
 
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.26.0
-        inlineScript: |
-          az account show
+  #   - name: Azure CLI script
+  #     uses: azure/CLI@v1
+  #     with:
+  #       azcliversion: 2.26.0
+  #       inlineScript: |
+  #         az account show
 
   loadtest:
-    needs: [azure-sql, azure-vm]
+    #needs: [azure-sql, azure-vm]
     runs-on: ubuntu-latest
     name: argocd-cli
     steps:
@@ -54,7 +54,12 @@ jobs:
         password: ${{ secrets.ARGOCD_PASSWORD }}
         command: app wait error-page-s
 
-    - name: ssh
-      id: ssh
-      run: |
-          ssh && scp
+    - name: Run loadtest
+      uses: ./ssh-action
+      with:
+        command: |
+          cd /home/vcadmin
+          ls -l
+        host: ${{ secrets.HOST }}
+        user: ${{ secrets.USER }}
+        pass: ${{ secrets.PASSWORD }}
