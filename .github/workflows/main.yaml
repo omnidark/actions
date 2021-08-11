@@ -57,6 +57,6 @@ jobs:
     - name: Run Loadtest
       id: ssh-login
       run: |
-          echo {{ secrets.SSH_KEY }} > ~/key
+          echo {{ secrets.SSH_KEY }} > ~/key && chmod 700 ~/key
           ssh -tt -o StrictHostKeyChecking=no -i ~/key vcadmin@${{ secrets.HOST }}
           ls
