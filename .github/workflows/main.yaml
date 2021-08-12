@@ -56,14 +56,12 @@ jobs:
     
     - name: Get release tag
       run: |
-        TAG=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 5 | head -n 1)
-        echo $TAG
-        echo "RELEASE_TAG=$(niet ".images[0].newTag" ${{ github.workspace }}/platform-dev/resources/kustomization.yaml)" >> $GITHUB_ENV
+        echo "PLATFORM_IMAGE_TAG=$(niet ".images[0].newTag" ${{ github.workspace }}/platform-dev/resources/kustomization.yaml)" >> $GITHUB_ENV
       
     - name: Echo
       run: |
-        echo ${{ env.RELEASE_TAG }}
-        echo ${{ github.action }}
+        echo ${{ env.PLATFORM_IMAGE_TAG }}
+        echo ${{ github.run_id }}
     # - name: App wait
     #   uses: ./vc-argocd-cli # Uses an action in the root directory
     #   id: argocd-cli
