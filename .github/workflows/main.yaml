@@ -38,7 +38,7 @@ jobs:
   loadtest:
     needs: [azure-sql, azure-vm]
     runs-on: ubuntu-latest
-    name: argocd-cli
+    name: loadtest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -67,6 +67,12 @@ jobs:
           export AUTH_TOKEN=${{ secrets.GH_TOKEN }}
           python3.8 loadtest.py && echo "finish"
 
+  Scaledown:
+    needs: [azure-sql, azure-vm, loadtest]
+    if: always()
+    runs-on: ubuntu-latest
+    name: Scaledown
+    steps:
     - name: Azure login SQL
       uses: azure/login@v1
       with:
