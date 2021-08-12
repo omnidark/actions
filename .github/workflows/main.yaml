@@ -5,40 +5,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  # azure-sql:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Azure login
-  #     uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
-  #       allow-no-subscriptions: true
+  azure-sql:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
 
-  #   - name: Azure CLI script
-  #     uses: azure/CLI@v1
-  #     with:
-  #       azcliversion: 2.26.0
-  #       inlineScript: |
-  #         az account show
+    - name: Azure CLI - scale up DB
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.26.0
+        inlineScript: |
+          az sql db create --resource-group aks-cluster-dev --server vc-dev-dbserver --name loadtest-platform_dev_separate_restored --service-objective S4
 
-  # azure-vm:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Azure login
-  #     uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
-  #       allow-no-subscriptions: true
+  azure-vm:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
 
-  #   - name: Azure CLI script
-  #     uses: azure/CLI@v1
-  #     with:
-  #       azcliversion: 2.26.0
-  #       inlineScript: |
-  #         az account show
+    - name: Azure CLI - start vm
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.26.0
+        inlineScript: |
+          az vm start --resource-group load-test_group --name load-test
 
   loadtest:
-    #needs: [azure-sql, azure-vm]
+    needs: [azure-sql, azure-vm]
     runs-on: ubuntu-latest
     name: argocd-cli
     steps:
@@ -61,4 +61,18 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         script: |
-          ping -c 500 vk.com
+          ping -c 50 vk.com
+
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        allow-no-subscriptions: true
+
+    - name: Azure CLI - scale down resources
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.26.0
+        inlineScript: |
+          az sql db create --resource-group aks-cluster-dev --server vc-dev-dbserver --name loadtest-platform_dev_separate --elastic-pool vc-dev-elasticpool
+          az vm start --resource-group load-test_group --name load-test
