@@ -59,7 +59,12 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         script: |
-          ping -c 50 vk.com
+          cd loadtest
+          export RELEASE_TAG='3.179'
+          export TEST='./vc-benchmark/jmeter/xAPI/xApi_load_test_5_60_1800.jmx'
+          export REPO='https://github.com/VirtoCommerce/vc-benchmark.git'
+          export AUTH_TOKEN=${{ secrets.GH_TOKEN }}
+          python3.8 loadtest.py
 
     - name: Azure login SQL
       uses: azure/login@v1
