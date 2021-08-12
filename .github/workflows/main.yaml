@@ -61,7 +61,7 @@ jobs:
     - name: Echo
       run: |
         echo ${{ env.RELEASE_TAG }}
-        echo ${{ env.GITHUB_ACTION }}
+        echo ${{ github.action }}
     # - name: App wait
     #   uses: ./vc-argocd-cli # Uses an action in the root directory
     #   id: argocd-cli
