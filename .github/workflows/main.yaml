@@ -58,13 +58,14 @@ jobs:
         host: ${{ secrets.HOST }}
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
+        command_timeout: 45m
         script: |
           cd loadtest
           export RELEASE_TAG='3.179'
           export TEST='./vc-benchmark/jmeter/xAPI/xApi_load_test_5_60_1800.jmx'
           export REPO='https://github.com/VirtoCommerce/vc-benchmark.git'
           export AUTH_TOKEN=${{ secrets.GH_TOKEN }}
-          python3.8 loadtest.py
+          python3.8 loadtest.py && echo "finish"
 
     - name: Azure login SQL
       uses: azure/login@v1
