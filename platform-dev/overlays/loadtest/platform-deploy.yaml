@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: platform
+spec:
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: instance
+                operator: In
+                values:
+                - loadtest
+            topologyKey: failure-domain.beta.kubernetes.io/zone
+      containers:
+        - name: vc-platform-web
+          resources:
+            limits:
+              cpu: "500m"
+              memory: 512Mi
+            requests:
+              cpu: "500m"
+              memory: 512Mi
+          volumeMounts:
+          - mountPath: "/opt/virtocommerce/platform/wwwroot/cms-content"
+            name: cms-content-data
+          - mountPath: "/opt/virtocommerce/platform/modules"
+            name: modules-data
+      volumes:
+      - name: cms-content-data
+        persistentVolumeClaim:
+          claimName: cms-content-volume
+      - name: modules-data
+        emptyDir: {}
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 2
+    type: RollingUpdate
