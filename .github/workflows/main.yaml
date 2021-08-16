@@ -78,6 +78,7 @@ jobs:
         debug: "true"
         source: "./platform-dev/overlays/loadtest/scripts/loadtest.py"
         target: "/home/vcadmin/loadtest"
+        strip_components: 5
 
     - name: Run Loadtest
       uses: appleboy/ssh-action@master
