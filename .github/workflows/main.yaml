@@ -72,7 +72,7 @@ jobs:
         host: ${{ secrets.HOST }}
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
-        source: "platform-dev/overlays/loadtest/scripts/loadtest.py"
+        source: "${{ github.workspace }}/platform-dev/overlays/loadtest/scripts/loadtest.py"
         target: "loadtest"
 
     - name: Run Loadtest
