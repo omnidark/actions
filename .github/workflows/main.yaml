@@ -66,9 +66,8 @@ jobs:
   #       username: ${{ secrets.ARGOCD_LOGIN }}
   #       password: ${{ secrets.ARGOCD_PASSWORD }}
   #       command: app wait loadtest-dev
-    - uses: actions/checkout@master
-      name: Uploadscript
-      uses: appleboy/scp-action@master
+    - uses: appleboy/scp-action@master
+      name: Upload script
       with:
         host: ${{ secrets.HOST }}
         username: vcadmin
