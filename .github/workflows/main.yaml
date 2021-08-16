@@ -73,8 +73,9 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         debug: "true"
-        source: "*"
+        source: "./platform-dev/overlays/loadtest/scripts/loadtest.py"
         target: "/home/vcadmin/loadtest"
+        strip_components: 2
 
     - name: Run Loadtest
       uses: appleboy/ssh-action@master
