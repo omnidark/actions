@@ -69,11 +69,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Bash
-      run: |
-        cat ${{ github.workspace }}/platform-dev/overlays/loadtest/scripts/loadtest.py
-        cat ./platform-dev/overlays/loadtest/scripts/loadtest.py
-    
     - uses: appleboy/scp-action@master
       name: Upload script
       with:
@@ -83,7 +78,6 @@ jobs:
         debug: "true"
         source: "./platform-dev/overlays/loadtest/scripts/loadtest.py"
         target: "/home/vcadmin/loadtest"
-        strip_components: 2
 
     - name: Run Loadtest
       uses: appleboy/ssh-action@master
