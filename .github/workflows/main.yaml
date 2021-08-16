@@ -73,7 +73,7 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         debug: "true"
-        source: "./platform-dev/overlays/loadtest/scripts/loadtest.py"
+        source: "*"
         target: "/home/vcadmin/loadtest"
 
     - name: Run Loadtest
