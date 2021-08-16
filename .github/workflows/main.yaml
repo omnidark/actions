@@ -73,7 +73,7 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         debug: true
-        source: "shell.sh"
+        source: "tests/shell.sh"
         target: "loadtest"
 
     - name: Run Loadtest
