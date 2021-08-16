@@ -68,8 +68,7 @@ jobs:
   #       command: app wait loadtest-dev
     - name: Bash
       run: |
-        ls ${{ github.workspace }}
-        ls ./
+        cat ${{ github.workspace }}/platform-dev/overlays/loadtest/requirements.txt
 
     - uses: appleboy/scp-action@master
       name: Upload script
