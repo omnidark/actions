@@ -73,8 +73,8 @@ jobs:
         username: vcadmin
         password: ${{ secrets.PASSWORD }}
         debug: "true"
-        source: "scripts/loadtest.py"
-        target: "platform-dev/overlays/loadtest"
+        source: "${{ github.workspace }}/platform-dev/overlays/loadtest/scripts/loadtest.py"
+        target: "/home/vcadmin/loadtest"
 
     - name: Run Loadtest
       uses: appleboy/ssh-action@master
